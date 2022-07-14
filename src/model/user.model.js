@@ -38,13 +38,17 @@ const getUserByEmail = (email, selectAll = false) => {
   return UserModel.findOne({ email }).select('+email').exec();
 };
 
+const getUserById = (id) => {
+  const user = UserModel.findById(id).exec();
+  if (!user) throw new Error('user exist with this email');
+  return user;
+};
+
 const createUser = async (userData) => {
   const existUser = await getUserByEmail(userData.email);
-  console.log(existUser);
   if (existUser) throw new Error('user exist with this email');
   const newUser = await UserModel.create(userData);
-  console.log(newUser);
   return newUser;
 };
 
-module.exports = { createUser, getUserByEmail };
+module.exports = { createUser, getUserByEmail, getUserById };

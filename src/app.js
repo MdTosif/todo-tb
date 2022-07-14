@@ -11,6 +11,7 @@ app.use('/auth', authRoutes);
 app.use('/todo', todoRoutes);
 
 // error handles
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, _) => {
   console.log(err);
   res.status(400).json({ message: err.message });

@@ -24,29 +24,36 @@ const TodoItemSchema = new mongoose.Schema({
 
 const TodoItemModel = mongoose.model('TodoItem', TodoItemSchema);
 
-exports.createTodoItem = async (item) => {
+const createTodoItem = async (item) => {
   console.log(item);
   const todoItem = await TodoItemModel.create(item);
   return todoItem;
 };
 
-exports.getTodoItemByUserId = async (userId) => {
+const getTodoItemByUserId = async (userId) => {
   const todoItem = await TodoItemModel.find({ userId });
   return todoItem;
 };
 
-exports.deleteTodoItemById = async (id) => {
-  const todoItem = await TodoItemModel.findByIdAndDelete(id);
-  return todoItem;
-};
-
-exports.getTodoItemById = async (id) => {
-  const todoItem = await TodoItemModel.findById(id);
+const deleteTodoItemById = async (id, userId) => {
+  const todoItem = await TodoItemModel.findOneAndDelete({ _id: id, userId });
   if (!todoItem) throw new Error('todo item with given details don\'t exist');
   return todoItem;
 };
 
-exports.updateTodoItem = async (id, item) => {
-  const todoItem = await TodoItemModel.findByIdAndUpdate(id, item);
+const getTodoItemById = async (id, userId) => {
+  const todoItem = await TodoItemModel.findOne({ _id: id, userId });
+  if (!todoItem) throw new Error('todo item with given details don\'t exist');
   return todoItem;
+};
+
+const updateTodoItem = async (id, userId, item) => {
+  const todoItem = await TodoItemModel
+    .findOneAndUpdate({ _id: id, userId }, item, { new: true });
+  if (!todoItem) throw new Error('todo item with given details don\'t exist');
+  return todoItem;
+};
+
+module.exports = {
+  createTodoItem, getTodoItemByUserId, getTodoItemById, deleteTodoItemById, updateTodoItem,
 };
