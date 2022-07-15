@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watch",
-    "start": "nodemon index.js"
+    "start": "set NODE_ENV=production && node index",
+    "start:dev": "node index",
+    "watch": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
