@@ -25,7 +25,6 @@ const TodoItemSchema = new mongoose.Schema({
 const TodoItemModel = mongoose.model('TodoItem', TodoItemSchema);
 
 const createTodoItem = async (item) => {
-  console.log(item);
   const todoItem = await TodoItemModel.create(item);
   return todoItem;
 };

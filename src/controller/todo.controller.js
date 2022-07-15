@@ -1,22 +1,17 @@
-const {
-  createTodoItem, getTodoItemByUserId, getTodoItemById, deleteTodoItemById, updateTodoItem,
-} = require('../model/todoItem.model');
+const todoSrvc = require('../service/todo.service');
 
 const postTodoItem = async (req, res, next) => {
   try {
-    const item = req.body;
-    item.userId = req.user.id;
-    const savedTodoItem = await createTodoItem(item);
-    res.json({ item: savedTodoItem });
+    const response = todoSrvc.postTodoItem(req);
+    res.json(response);
   } catch (error) {
     next(error);
   }
 };
 const getAllTodoItems = async (req, res, next) => {
   try {
-    const userId = req.user.id;
-    const todoItem = await getTodoItemByUserId(userId);
-    res.json({ items: todoItem });
+    const response = todoSrvc.getAllTodoItems(req);
+    res.json(response);
   } catch (error) {
     next(error);
   }
@@ -24,31 +19,24 @@ const getAllTodoItems = async (req, res, next) => {
 
 const getTodoItem = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const userId = req.user.id;
-    const todoItem = await getTodoItemById(id, userId);
-    res.json({ item: todoItem });
+    const response = todoSrvc.getTodoItem(req);
+    res.json(response);
   } catch (error) {
     next(error);
   }
 };
 const deleteTodoItem = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const userId = req.user.id;
-    const todoItem = await deleteTodoItemById(id, userId);
-    res.json({ message: 'item get deleted', item: todoItem });
+    const response = todoSrvc.deleteTodoItem(req);
+    res.json(response);
   } catch (error) {
     next(error);
   }
 };
 const patchTodoItem = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const userId = req.user.id;
-    const item = req.body;
-    const updatedItem = await updateTodoItem(id, userId, item);
-    res.json({ item: updatedItem });
+    const response = todoSrvc.patchTodoItem(req);
+    res.json(response);
   } catch (error) {
     next(error);
   }

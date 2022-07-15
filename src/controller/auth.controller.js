@@ -1,15 +1,9 @@
-const jwt = require('jsonwebtoken');
-const { compare, hash } = require('bcrypt');
-const { createUser, getUserByEmail } = require('../model/user.model');
+const authSrvc = require('../service/auth.service');
 
 const login = async (req, res, next) => {
   try {
-    const userData = req.body;
-    const user = await getUserByEmail(userData.email, true);
-    const validPass = await compare(userData.password, user.password);
-    if (!validPass) throw new Error('invalid password or email');
-    const token = jwt.sign({ id: user.id }, 'secret');
-    res.json({ user, token });
+    const response = authSrvc.login(req);
+    res.json(response);
   } catch (error) {
     next(error);
   }
@@ -17,9 +11,7 @@ const login = async (req, res, next) => {
 
 const signup = async (req, res, next) => {
   try {
-    const userData = req.body;
-    const password = await hash(userData.password, 10);
-    await createUser({ ...userData, password });
+    authSrvc.signup(req);
     next();
   } catch (error) {
     next(error);
