@@ -1,0 +1,19 @@
+
+{
+    "$schema": "../chains.schema.json",
+    "name": "tosif",
+    "chains": [
+        
+        {
+            "name": "coreumtestnet",
+            "address": "validatorAddress",
+            "restake": {
+                "address": "botAddress",
+                "run_time": "every 3000 hours",
+                "minimum_reward": 321
+            }
+        }
+
+    ]
+}
+    
